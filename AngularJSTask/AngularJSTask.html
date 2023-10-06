@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html ng-app="TaskMe">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+    <title>Task Me App</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 10px;
+        }
+        body {
+            background-color: orange;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px;
+            overflow: scroll;
+        }
+        #mainBox {
+            background-color: white;
+            float: left;
+            flex: 40%;
+            border-radius: 20px;
+            box-shadow: -6px 6px 12px #c5c5c5, -6px 6px 12px #ffffff;
+            padding: 20px;
+            font-size: 20px;
+            margin-top: 10px;
+            margin-right: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #innerBox {
+            color: orange;
+            overflow: auto;
+            background-color: white;
+            float: left;
+            width: 20%;
+            border-radius: 20px;
+            box-shadow: -6px 6px 12px #c5c5c5, -6px 6px 12px #ffffff;
+            padding: 20px;
+            font-size: 20px;
+            margin-top: 10px;
+            align-self: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        button {
+
+            color: brown;
+            background-color: whitesmoke;
+            margin-top: 20px;
+            padding: 0.7em 1.7em;
+            font-size: 20px;
+            border-radius: 0.5em;
+            border: 1px solid #e8e8e8;
+            transition: all .3s;
+            box-shadow: -6px 6px 12px #8d8d8d, 6px 6px 12px #ffffff;
+        }
+        input {
+
+            color: brown;
+            padding: 10px;
+            font-size: 20px;
+            border: none;
+            border-radius: 0.5em;
+            background: #e8e8e8;
+            border: 1px solid #e8e8e8;
+            transition: all .3s;
+        }
+        input[type='checkbox'] {
+            box-shadow: 5px 5px 10px black ;
+
+        }
+        .taskCompleted {
+            text-decoration: line-through;
+            color: gray;
+        }
+    </style>
+</head>
+<body ng-controller="TaskCtrl">
+    <div id="mainBOX">
+        <h3> Total Tasks ={{ getTotalTasks() }}</h3>
+        <span> Total Tasks Completed = {{ getTotalTasksCompleted() }}</span>&nbsp;<br><br>
+        <span> Total Tasks Remaining = {{ getTotalTasksRemaining() }}</span><br><br>
+        <input type="text" ng-model="newHeading" ng-model-istant placeholder="Add a heading"><br><br>
+        <button ng-click="addHeading()"><strong>+</strong>Add Heading</button><br><br>
+        <button ng-click="removeCompleted()"> <strong>-</strong> Completed</button><br><br>
+        
+    </div>
+    <div id="innerBox" ng-repeat="heading in headings">
+        <h2>{{ heading.name }}</h2>
+        <ul>
+            <li ng-repeat="task in heading.tasks" style="list-style-type:none;">
+                <input id="taskCheck" type="checkbox" ng-model="task.done" ng-click="toggleTask($parent.$index,$index)">
+                <span ng-class="{'taskCompleted':task.done}" id="done">{{ task.name }}</span>
+            </li>
+        </ul>
+        <form>
+            <input type="text" ng-model="taskName" ng-model-istant placeholder="Add Task here">
+            <button ng-click="addTask($index,taskName)"><strong>+</strong> Add Task</button>
+        </form>
+    </div>
+    <br>
+    <p>{{errorText}}</p>
+    <script type="text/JavaScript" src="task.js"></script>
+</body>
+</html>
